@@ -8,13 +8,25 @@ You'll get to practice your OO design and TDD skills.
 
 You'll work alone, and you'll also review your own code so you can practice reflecting on and improving your own work.
 
+## Instructions
+
+* clone this repo
+* run bundle install
+* run rspec
+* use IRB or PRY: load firstly the transactions, followed by printer.
+
+## Used technologies
+* ruby 2.4.0p0
+* rspec (3.6.0)
+* simplecov (0.14.1)
+
 ## Specification
 
 ### User Stories
 ```
 As a Customer
-So as I can deal with the bank
-I would like have an account
+So as I can handle my money at the bank
+I would like to make transactions
 ```
 
 ```
