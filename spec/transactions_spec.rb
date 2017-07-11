@@ -1,5 +1,5 @@
 require 'transactions'
-
+require 'time'
 
 describe Transactions do
   subject(:transactions) { described_class.new }
@@ -9,9 +9,16 @@ describe Transactions do
   end
 
   describe '#deposit' do
-    it 'can make a deposit' do
+    it 'can make a deposit and records the amount' do
       transactions.deposit(20)
       expect(transactions.log.first.values).to include 20
+    end
+
+    it 'can make a deposit and records the date it was made' do
+      now = Time.parse("2012-01-14 20:17:40")
+      allow(Time).to receive(:now) { now }
+      transactions.deposit(20)
+      expect(transactions.log.first.values).to include now.strftime("%d/%m/%Y")
     end
 
   end
