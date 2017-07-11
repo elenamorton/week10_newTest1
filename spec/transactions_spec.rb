@@ -28,7 +28,14 @@ describe Transactions do
       transactions.withdraw(10)
       expect(transactions.log.first.values).to include 10
     end
-    
+
+    it 'can make a withdrawl and records the date it was made' do
+      now = Time.parse("2012-01-10 20:17:40")
+      allow(Time).to receive(:now) { now }
+      transactions.withdraw(10)
+      expect(transactions.log.first.values).to include now.strftime("%d/%m/%Y")
+    end
+
   end
 
 end
