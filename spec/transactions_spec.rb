@@ -4,7 +4,7 @@ require 'time'
 describe Transactions do
   subject(:transactions) { described_class.new }
 
-  it "expects account to have an empty log at start" do
+  it 'expects account to have an empty log at start' do
       expect(transactions.log).to eq []
   end
 
@@ -21,6 +21,14 @@ describe Transactions do
       expect(transactions.log.first.values).to include now.strftime("%d/%m/%Y")
     end
 
+  end
+
+  describe '#withdraw' do
+    it 'can make a withdrawl and records the amount' do
+      transactions.withdraw(10)
+      expect(transactions.log.first.values).to include 10
+    end
+    
   end
 
 end
