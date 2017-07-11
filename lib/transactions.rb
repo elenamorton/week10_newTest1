@@ -19,6 +19,7 @@ class Transactions
 
 
 private
+
   def record_transaction(operation)
     operation[:date] = Time.now.strftime("%d/%m/%Y")
     log.unshift(operation)

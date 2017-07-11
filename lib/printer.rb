@@ -9,9 +9,9 @@ class Printer
 
   def statement
     headers
-    @transactions.log.each_with_index do |transaction, index|
-      result = transaction.reduce(0) {|sum,element| sum + element[:deposit] - element[:withdraw]}
-      p result
+    results = 0
+    @transactions.log.map do |transaction|
+      result += transaction[:deposit] - transaction[:withdraw]
       statementLine(transaction) + "#{result} \n"
     end
   end
