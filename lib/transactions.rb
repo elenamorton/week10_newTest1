@@ -22,6 +22,7 @@ private
   def record_transaction(operation)
     operation[:date] = Time.now.strftime("%d/%m/%Y")
     log.unshift(operation)
+    @transaction = Hash.new { 0 }
   end
 
 end
