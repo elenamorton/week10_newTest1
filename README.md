@@ -11,21 +11,29 @@ You'll work alone, and you'll also review your own code so you can practice refl
 ## Specification
 
 ### User Stories
+```
 As a Customer
 So as I can deal with the bank
 I would like have an account
+```
 
+```
 As a Customer
 So as I can increase my money
 I would like to make deposit into my account
+```
 
+```
 As a Customer
 So as I can get my money
 I would like to withdraw from my account
+```
 
+```
 As a Customer
 So as I know the state of my account
 I would like to see a statement with all transactions
+```
 
 ### Requirements
 
