@@ -17,6 +17,9 @@ class Transactions
     record_transaction(@transaction)
   end
 
+  def overdraft?
+    partial_balance < 0
+  end
 
 private
 
@@ -24,6 +27,10 @@ private
     operation[:date] = Time.now.strftime("%d/%m/%Y")
     log.unshift(operation)
     @transaction = Hash.new { 0 }
+  end
+
+  def partial_balance
+    @log.each.inject(0) { |sum, value| sum + value[:deposit] - value[:withdraw]}
   end
 
 end

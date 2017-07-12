@@ -38,4 +38,12 @@ describe Transactions do
 
   end
 
+  describe '#overdraft' do
+    it 'can check if current transaction is overdraft' do
+      transactions.deposit(20)
+      transactions.withdraw(30)
+      expect(transactions.overdraft?).to be(true)
+    end
+  end
+
 end
