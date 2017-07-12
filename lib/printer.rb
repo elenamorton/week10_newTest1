@@ -16,6 +16,7 @@ class Printer
     end
   end
 
+
 #private
 
   def headers
