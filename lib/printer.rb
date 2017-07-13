@@ -11,8 +11,8 @@ class Printer
     headers
     results = 0
     @transactions.log.map do |transaction|
-      result += transaction[:deposit] - transaction[:withdraw]
-      statementLine(transaction) + "#{result} \n"
+      results += transaction[:deposit] - transaction[:withdraw]
+      statementLine(transaction) + "#{results} \n"
     end
   end
 
