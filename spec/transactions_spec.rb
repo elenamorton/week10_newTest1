@@ -2,7 +2,7 @@ require 'transactions'
 require 'time'
 
 describe Transactions do
-  subject(:transactions) { described_class.new }
+  subject(:transactions) { described_class.new(deposit_transaction) }
   let(:deposit_transaction) { double :transaction, transaction: { deposit: 20 } }
   let(:withdraw_transaction) { double :transaction, transaction: { withdraw: 30 } }
 
@@ -12,9 +12,8 @@ describe Transactions do
   end
 
   describe '#logging' do
-    it 'can log a deposit transaction with its amount' do
-      transactions.logging(:deposit)
-      expect(transactions.log.first.values).to include 20
+    it 'can log a transaction' do
+      expect{ transactions.logging }.to change{transactions.log.size}.from(0).to(1)
     end
 
     it 'can log a deposit and add the date it was made' do

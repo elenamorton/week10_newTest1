@@ -7,8 +7,8 @@ class Transactions
     @transaction = transaction
   end
 
-  def logging(transaction)
-    record_to_log(transaction) unless overdraft?
+  def logging
+    record_to_log unless overdraft?
   end
 
   def overdraft?
@@ -21,8 +21,8 @@ private
     @log.each.inject(0) { |sum, value| sum + value[:deposit] - value[:withdraw]}
   end
 
-  def record_to_log(operation)
-    log.unshift(operation)
+  def record_to_log
+    log.unshift(@transaction)
   end
 
 
