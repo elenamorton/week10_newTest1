@@ -13,11 +13,11 @@ class Transactions
     record_transaction_to_log(@data) unless overdraft?
   end
 
+private
+
   def overdraft?
     partial_balance(@data) < 0
   end
-
-private
 
   def partial_balance(data)
     @log.each.inject(data[:deposit] - data[:withdraw]) { |sum, value| sum + value[:deposit] - value[:withdraw]}

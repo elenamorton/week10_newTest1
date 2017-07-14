@@ -2,9 +2,10 @@ require 'transactions'
 require 'time'
 
 describe Transactions do
-  let(:transaction_d) { double :transaction, transaction: { deposit: 20 } }
-  let(:transaction_w) { double :transaction, transaction: { withdraw: 10 } }
-  let(:transaction_w_overdraft) { double :transaction, transaction: { withdraw: 30 } }
+
+  let(:transaction_d) { double :transaction, transaction: { date: "10/01/2012", deposit: 20, withdraw: 0 } }
+  let(:transaction_w) { double :transaction, transaction: { date: "12/01/2012", deposit: 0, withdraw: 10 } }
+  let(:transaction_w_overdraft) { double :transaction, transaction: { date: "14/01/2012", deposit: 0, withdraw: 30} }
 
   subject(:transactions) { described_class.new }
 
@@ -18,46 +19,26 @@ describe Transactions do
     end
 
     it 'can log a deposit' do
-      now = Time.parse("2012-01-14 20:17:40")
-      allow(Time).to receive(:now) { now }
-      transaction_d = instance_double("Transaction")
-      expect(transaction_d).to receive(:deposit).with(20)
-
-      transactions = Transactions.new(transaction_d)
-      transactions.logging
-
-      expect(transactions.log.first.values).to include now.strftime("%d/%m/%Y")
+      transactions.logging(transaction_d)
+      expect(transactions.log.first.values).to include "10/01/2012"
       expect(transactions.log.first.values).to include 20
     end
 
     it 'can log a withdrawl' do
-      now = Time.parse("2012-01-10 20:17:40")
-      allow(Time).to receive(:now) { now }
-
+      transactions.logging(transaction_d)
+      transactions.logging(transaction_w)
+      expect(transactions.log.first.values).to include "12/01/2012"
+      expect(transactions.log.first.values).to include 10
     end
 
     it 'connot log a withrdawal if this causes overdraft' do
-
+      transactions.logging(transaction_d)
+      transactions.logging(transaction_w_overdraft)
+      expect(transactions.log.first.values).to include "12/01/2012"
+      expect(transactions.log.first.values).to include 10
     end
 
   end
 
-  describe '#overdraft' do
-    it 'can check if current transaction is overdraft' do
-      transaction_d = instance_double("Transaction")
-      expect(transaction_d).to receive(:deposit).with(20)
-
-      transaction_w = instance_double("Transaction")
-      expect(transaction_w).to receive(:withdraw).with(30)
-
-      transactions = Transactions.new(transaction_d)
-      transactions.logging
-
-      transactions(transaction_w)
-      transactions.logging
-
-      expect(transactions.overdraft?).to be(true)
-    end
-  end
 
 end
