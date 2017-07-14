@@ -2,19 +2,13 @@ class Transactions
 
   attr_reader :log
 
-  def initialize
+  def initialize(transaction = Transaction.new)
     @log = []
-    @transaction = Hash.new { 0 }
+    @transaction = transaction
   end
 
-  def deposit(amount)
-    @transaction[:deposit] = amount
-    record_transaction(@transaction)
-  end
-
-  def withdraw(amount)
-    @transaction[:withdraw] = amount
-    record_transaction(@transaction)
+  def logging(transaction)
+    record_to_log(transaction) unless overdraft?
   end
 
   def overdraft?
@@ -23,14 +17,13 @@ class Transactions
 
 private
 
-  def record_transaction(operation)
-    operation[:date] = Time.now.strftime("%d/%m/%Y")
-    log.unshift(operation)
-    @transaction = Hash.new { 0 }
-  end
-
   def partial_balance
     @log.each.inject(0) { |sum, value| sum + value[:deposit] - value[:withdraw]}
   end
+
+  def record_to_log(operation)
+    log.unshift(operation)
+  end
+
 
 end

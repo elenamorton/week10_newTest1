@@ -8,10 +8,12 @@ class Transaction
 
   def deposit(amount)
     @transaction[:deposit] = amount
+    @transaction[:date] = Time.now.strftime("%d/%m/%Y")
   end
 
   def withdraw(amount)
     @transaction[:withdraw] = amount
+    @transaction[:date] = Time.now.strftime("%d/%m/%Y")
   end
 
 
