@@ -31,11 +31,16 @@ describe Transactions do
       expect(transactions.log.first.values).to include 10
     end
 
-    it 'cannot log a withrdawal if this causes overdraft' do
+    it 'will not log a withdrawal if this causes overdraft' do
       transactions.logging(transaction_d)
-      transactions.logging(transaction_w_overdraft)
+      expect { transactions.logging(transaction_w_overdraft) }.to raise_error 'Transaction not allowed: account overdraft!'
       expect(transactions.log.first.values).to include "10/01/2012"
       expect(transactions.log.first.values).to include 20
+    end
+
+    it 'raises an error if transaction causes overdraft' do
+      transactions.logging(transaction_d)
+      expect { transactions.logging(transaction_w_overdraft) }.to raise_error 'Transaction not allowed: account overdraft!'
     end
   end
 

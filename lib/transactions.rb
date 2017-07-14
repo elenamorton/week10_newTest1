@@ -11,6 +11,7 @@ class Transactions
   def logging(transaction)
     @data = transaction.transaction
     record_transaction_to_log(@data) unless overdraft?
+    raise 'Transaction not allowed: account overdraft!' if overdraft?
   end
 
 private
