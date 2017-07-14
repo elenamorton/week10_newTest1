@@ -12,7 +12,7 @@ class Printer
     results = 0
     @transactions.log.map do |transaction|
       results += transaction[:deposit] - transaction[:withdraw]
-      statementLine(transaction) + "#{results} \n"
+      statement_line(transaction) + "#{results} \n"
     end
   end
 
@@ -23,10 +23,10 @@ class Printer
     HEADERS
   end
 
-  def statementLine(transaction)
+  def statement_line(transaction)
     return "#{transaction[:date]} || || #{transaction[:withdraw]} || " if transaction[:withdraw] != 0
     return "#{transaction[:date]} || #{transaction[:deposit]} || || " if transaction[:deposit] != 0
-    raise "Transaction type error!"
+    raise 'Transaction type error!'
   end
 
 end
