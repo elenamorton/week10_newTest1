@@ -34,8 +34,8 @@ describe Transactions do
     it 'connot log a withrdawal if this causes overdraft' do
       transactions.logging(transaction_d)
       transactions.logging(transaction_w_overdraft)
-      expect(transactions.log.first.values).to include "12/01/2012"
-      expect(transactions.log.first.values).to include 10
+      expect(transactions.log.first.values).to include "10/01/2012"
+      expect(transactions.log.first.values).to include 20
     end
 
   end
