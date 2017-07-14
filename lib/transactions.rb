@@ -1,28 +1,30 @@
+require_relative 'transaction'
+
 class Transactions
 
   attr_reader :log
 
-  def initialize(transaction = Transaction.new)
+  def initialize
     @log = []
-    @transaction = transaction
   end
 
-  def logging
-    record_to_log unless overdraft?
+  def logging(transaction)
+    @data = transaction.transaction
+    record_transaction_to_log(@data) unless overdraft?
   end
 
   def overdraft?
-    partial_balance < 0
+    partial_balance(@data) < 0
   end
 
 private
 
-  def partial_balance
-    @log.each.inject(0) { |sum, value| sum + value[:deposit] - value[:withdraw]}
+  def partial_balance(data)
+    @log.each.inject(data[:deposit] - data[:withdraw]) { |sum, value| sum + value[:deposit] - value[:withdraw]}
   end
 
-  def record_to_log
-    log.unshift(@transaction)
+  def record_transaction_to_log(data)
+    log.unshift(data)
   end
 
 
